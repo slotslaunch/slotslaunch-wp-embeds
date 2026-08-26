@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'slotslaunch/slotslaunch-wp-embeds',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'd53ae8f9ae1c890760860fc93a39d47aa57d85a6',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '5ce5bc924a012dce860be7db4b914832aeed84f0',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'slotslaunch/slotslaunch-wp-embeds' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'd53ae8f9ae1c890760860fc93a39d47aa57d85a6',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '5ce5bc924a012dce860be7db4b914832aeed84f0',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

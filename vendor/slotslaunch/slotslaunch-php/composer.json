@@ -1,0 +1,15 @@
+{
+    "name": "slotslaunch/slotslaunch-php",
+    "description": "Signed iframe embed and API request helpers for Slots Launch",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SlotsLaunch\\": "src/"
+        }
+    }
+}

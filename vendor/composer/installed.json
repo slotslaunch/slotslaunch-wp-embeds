@@ -4,14 +4,21 @@
             "name": "slotslaunch/slotslaunch-php",
             "version": "1.0.0",
             "version_normalized": "1.0.0.0",
-            "dist": {
-                "type": "path",
-                "url": "../slotslaunch-php",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slotslaunch/slotslaunch-php.git",
                 "reference": "6ca0062da7689051cf4acfc0f44d7ac73b49d820"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slotslaunch/slotslaunch-php/zipball/6ca0062da7689051cf4acfc0f44d7ac73b49d820",
+                "reference": "6ca0062da7689051cf4acfc0f44d7ac73b49d820",
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.4"
             },
+            "time": "2026-08-26T22:46:58+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -23,8 +30,9 @@
                 "MIT"
             ],
             "description": "Signed iframe embed and API request helpers for Slots Launch",
-            "transport-options": {
-                "relative": true
+            "support": {
+                "source": "https://github.com/slotslaunch/slotslaunch-php/tree/v1.0.0",
+                "issues": "https://github.com/slotslaunch/slotslaunch-php/issues"
             },
             "install-path": "../slotslaunch/slotslaunch-php"
         }

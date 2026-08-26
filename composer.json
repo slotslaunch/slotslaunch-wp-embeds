@@ -9,10 +9,6 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../slotslaunch-php"
-        },
-        {
             "type": "vcs",
             "url": "https://github.com/slotslaunch/slotslaunch-php.git"
         }
