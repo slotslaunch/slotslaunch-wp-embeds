@@ -1,0 +1,23 @@
+{
+    "name": "slotslaunch/slotslaunch-wp-embeds",
+    "description": "WordPress plugin — signed Slots Launch game embeds via shortcode",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4",
+        "slotslaunch/slotslaunch-php": "^1.0"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../slotslaunch-php"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/slotslaunch/slotslaunch-php.git"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    }
+}

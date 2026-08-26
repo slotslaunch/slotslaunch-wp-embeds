@@ -1,0 +1,46 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e0a01926fc86fa8b3b3e11cded950740",
+    "packages": [
+        {
+            "name": "slotslaunch/slotslaunch-php",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "../slotslaunch-php",
+                "reference": "6ca0062da7689051cf4acfc0f44d7ac73b49d820"
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SlotsLaunch\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Signed iframe embed and API request helpers for Slots Launch",
+            "transport-options": {
+                "relative": true
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}
