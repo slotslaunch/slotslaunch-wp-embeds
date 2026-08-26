@@ -22,9 +22,13 @@ final class Plugin
     private function __construct()
     {
         require_once SLOTSLAUNCH_WP_EMBEDS_PATH . 'includes/class-settings.php';
+        require_once SLOTSLAUNCH_WP_EMBEDS_PATH . 'includes/class-assets.php';
+        require_once SLOTSLAUNCH_WP_EMBEDS_PATH . 'includes/class-ajax.php';
         require_once SLOTSLAUNCH_WP_EMBEDS_PATH . 'includes/class-shortcode.php';
 
         Settings::register();
+        Assets::register();
+        Ajax::register();
         Shortcode::register();
     }
 }

@@ -124,6 +124,7 @@ final class Settings
             <p><?php esc_html_e('Paste a shortcode into any post or page. Find game IDs in Launch Pad.', 'slotslaunch-wp-embeds'); ?></p>
             <code>[slotslaunch_game id="45958"]</code>
             <p class="description"><?php esc_html_e('Optional attributes: height="600" width="100%"', 'slotslaunch-wp-embeds'); ?></p>
+            <p class="description"><?php esc_html_e('Games load via AJAX so full-page cache plugins do not serve expired signed URLs.', 'slotslaunch-wp-embeds'); ?></p>
             <?php if ($settings['api_key'] === '' || $settings['api_secret'] === '') : ?>
                 <div class="notice notice-warning inline">
                     <p><?php esc_html_e('Add your API key and API secret before November 15, 2026 to keep embeds working after the signed-embed upgrade.', 'slotslaunch-wp-embeds'); ?></p>

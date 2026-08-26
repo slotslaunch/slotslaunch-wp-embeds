@@ -3,7 +3,7 @@
  * Plugin Name:       Slots Launch Embeds
  * Plugin URI:        https://github.com/slotslaunch/slotslaunch-wp-embeds
  * Description:       Embed Slots Launch demo games with signed shortcodes. Lightweight — no game sync.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Slots Launch
@@ -16,7 +16,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('SLOTSLAUNCH_WP_EMBEDS_VERSION', '1.0.0');
+define('SLOTSLAUNCH_WP_EMBEDS_VERSION', '1.0.1');
 define('SLOTSLAUNCH_WP_EMBEDS_FILE', __FILE__);
 define('SLOTSLAUNCH_WP_EMBEDS_PATH', plugin_dir_path(__FILE__));
 

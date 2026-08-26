@@ -41,7 +41,9 @@ Constants override saved settings. The API secret must never appear in theme fil
 
 ## How it works
 
-The plugin uses [slotslaunch-php](https://github.com/slotslaunch/slotslaunch-php) to sign iframe URLs **on the server** when WordPress renders the shortcode. Your API secret never leaves PHP.
+The shortcode outputs a placeholder. JavaScript calls WordPress `admin-ajax.php`, PHP signs a fresh iframe URL, and the game loads. Works with **full-page cache** plugins because `exp` and `sig` are not stored in cached HTML.
+
+Uses [slotslaunch-php](https://github.com/slotslaunch/slotslaunch-php) on the server. Your API secret never leaves PHP.
 
 ## Deadline
 
