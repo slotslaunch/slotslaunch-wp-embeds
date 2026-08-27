@@ -1,6 +1,22 @@
 (function () {
   'use strict';
 
+  function resolveContainer(el) {
+    if (typeof el === 'string') {
+      el = document.querySelector(el);
+    }
+
+    if (!el) {
+      return null;
+    }
+
+    if (el.classList && el.classList.contains('slotslaunch-embed')) {
+      return el;
+    }
+
+    return el.closest('.slotslaunch-embed');
+  }
+
   function showError(container, message) {
     container.innerHTML = '';
     var notice = document.createElement('div');
@@ -69,9 +85,35 @@
   function boot() {
     var nodes = document.querySelectorAll('.slotslaunch-embed[data-sl-game]');
     for (var i = 0; i < nodes.length; i++) {
-      loadEmbed(nodes[i]);
+      if (nodes[i].getAttribute('data-sl-autoload') !== '0') {
+        loadEmbed(nodes[i]);
+      }
     }
+
+    document.addEventListener('click', function (event) {
+      var trigger = event.target.closest('[data-sl-play]');
+      if (!trigger) {
+        return;
+      }
+
+      var container = resolveContainer(trigger);
+      if (!container || container.getAttribute('data-sl-autoload') !== '0') {
+        return;
+      }
+
+      event.preventDefault();
+      loadEmbed(container);
+    });
   }
+
+  window.SlotsLaunchEmbeds = {
+    load: function (el) {
+      var container = resolveContainer(el);
+      if (container) {
+        loadEmbed(container);
+      }
+    }
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);

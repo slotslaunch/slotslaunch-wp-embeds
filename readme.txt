@@ -4,7 +4,7 @@ Tags: slots, casino, iframe, embed, games
 Requires at least: 5.8
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: MIT
 
 Embed Slots Launch demo games with signed shortcodes. Lightweight — no game sync.
@@ -42,6 +42,9 @@ In Launch Pad, open any game. Use **Copy Shortcode** or note the numeric id in t
 Launch Pad → API. Register your website domain (without www.) before embedding.
 
 == Changelog ==
+
+= 1.0.2 =
+* Added autoload attr to the shortcode and placeholders
 
 = 1.0.1 =
 * Cache-friendly embeds: sign iframe URLs via AJAX instead of baking exp/sig into cached HTML.

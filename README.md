@@ -22,8 +22,10 @@ For full game sync, rankings, and advanced features, use the main Slots Launch W
 Optional attributes:
 
 ```
-[slotslaunch_game id="45958" height="600" width="100%"]
+[slotslaunch_game id="45958" height="600" width="100%" autoload="false"]
 ```
+
+Set `autoload="false"` to output the embed container without loading the game until the visitor clicks play. See [docs/click-to-load.md](docs/click-to-load.md).
 
 Alias: `[slotslaunch id="45958"]`
 
