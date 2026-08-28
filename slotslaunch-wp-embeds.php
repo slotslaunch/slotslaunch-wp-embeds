@@ -10,6 +10,7 @@
  * Author URI:        https://slotslaunch.com
  * License:           MIT
  * Text Domain:       slotslaunch-wp-embeds
+ * Update URI:        https://slotslaunch.com
  */
 
 if (! defined('ABSPATH')) {

@@ -17,6 +17,8 @@ final class Settings
         add_action('admin_menu', [self::class, 'addMenu']);
         add_action('admin_init', [self::class, 'registerSettings']);
         add_action('admin_notices', [self::class, 'maybeShowMissingSecretNotice']);
+        add_action('admin_enqueue_scripts', [self::class, 'enqueueAdminAssets']);
+        add_action('wp_ajax_slotslaunch_wp_embeds_check_license', [self::class, 'ajaxCheckLicense']);
     }
 
     public static function addMenu(): void
@@ -95,10 +97,13 @@ final class Settings
             $apiSecret = $existing['api_secret'] ?? '';
         }
 
+        $storedPlan = $existing['plan'] ?? '';
+
         return [
             'api_key' => sanitize_text_field($input['api_key'] ?? ''),
             'api_secret' => $apiSecret,
             'site_domain' => self::normalizeDomain((string) ($input['site_domain'] ?? '')),
+            'plan' => is_string($storedPlan) ? $storedPlan : '',
         ];
     }
 
@@ -136,9 +141,19 @@ final class Settings
 
     public static function renderApiKeyField(): void
     {
-        $value = esc_attr(self::get()['api_key']);
+        $settings = self::get();
+        $value = esc_attr($settings['api_key']);
         echo '<input type="text" class="regular-text" name="' . esc_attr(self::OPTION_KEY) . '[api_key]" value="' . $value . '" autocomplete="off">';
-        echo '<p class="description">' . esc_html__('From Launch Pad → API → API key.', 'slotslaunch-wp-embeds') . '</p>';
+        echo ' <button type="button" class="button slotslaunch-wp-embeds-verify-key">' . esc_html__('Verify Key', 'slotslaunch-wp-embeds') . '</button>';
+        echo '<div id="slotslaunch-wp-embeds-license-response" style="margin-top:8px;"></div>';
+        if ($settings['plan'] !== '') {
+            echo '<p class="description">' . esc_html(sprintf(
+                /* translators: %s: plan name (free or premium) */
+                __('Verified plan: %s', 'slotslaunch-wp-embeds'),
+                $settings['plan']
+            )) . '</p>';
+        }
+        echo '<p class="description">' . esc_html__('From Launch Pad → API → API key. Also used for plugin updates.', 'slotslaunch-wp-embeds') . '</p>';
     }
 
     public static function renderApiSecretField(): void
@@ -184,7 +199,7 @@ final class Settings
     }
 
     /**
-     * @return array{api_key: string, api_secret: string, site_domain: string}
+     * @return array{api_key: string, api_secret: string, site_domain: string, plan: string}
      */
     public static function get(): array
     {
@@ -202,7 +217,66 @@ final class Settings
             'api_key' => trim($apiKey),
             'api_secret' => trim($apiSecret),
             'site_domain' => self::normalizeDomain($siteDomain),
+            'plan' => trim((string) ($stored['plan'] ?? '')),
         ];
+    }
+
+    public static function enqueueAdminAssets(string $hook): void
+    {
+        if ($hook !== 'settings_page_slotslaunch-wp-embeds') {
+            return;
+        }
+
+        wp_enqueue_script(
+            'slotslaunch-wp-embeds-admin',
+            plugins_url('assets/js/admin.js', SLOTSLAUNCH_WP_EMBEDS_FILE),
+            ['jquery'],
+            SLOTSLAUNCH_WP_EMBEDS_VERSION,
+            true
+        );
+
+        wp_localize_script(
+            'slotslaunch-wp-embeds-admin',
+            'slotslaunchWpEmbedsAdmin',
+            [
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('slotslaunch_wp_embeds_admin'),
+                'validMessage' => __('License is valid, and your subscription is active.', 'slotslaunch-wp-embeds'),
+                'enterKey' => __('Please enter your API key.', 'slotslaunch-wp-embeds'),
+                'errorMessage' => __('License check failed.', 'slotslaunch-wp-embeds'),
+                'missingNonce' => __('Missing security token. Refresh the page.', 'slotslaunch-wp-embeds'),
+            ]
+        );
+    }
+
+    public static function ajaxCheckLicense(): void
+    {
+        if (! current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('Forbidden', 'slotslaunch-wp-embeds')], 403);
+        }
+
+        $nonce = isset($_REQUEST['nonce']) ? sanitize_text_field(wp_unslash((string) $_REQUEST['nonce'])) : '';
+        if ($nonce === '' || ! wp_verify_nonce($nonce, 'slotslaunch_wp_embeds_admin')) {
+            wp_send_json_error(['message' => __('Invalid security token. Please refresh the page and try again.', 'slotslaunch-wp-embeds')], 403);
+        }
+
+        if (empty($_POST['license']) || ! is_scalar($_POST['license'])) {
+            wp_send_json(['error' => __('Please enter your API key.', 'slotslaunch-wp-embeds')]);
+        }
+
+        $license = sanitize_text_field(wp_unslash((string) $_POST['license']));
+        $response = License::validate($license);
+
+        if (empty($response->success)) {
+            wp_send_json($response);
+        }
+
+        $stored = self::getStored();
+        $stored['api_key'] = $license;
+        $stored['plan'] = License::planFromResponse($response);
+        update_option(self::OPTION_KEY, $stored);
+
+        wp_send_json($response);
     }
 
     public static function client(): ?Client
