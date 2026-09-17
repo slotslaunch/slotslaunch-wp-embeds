@@ -127,9 +127,13 @@ final class Settings
             <hr>
             <h2><?php esc_html_e('Shortcode', 'slotslaunch-wp-embeds'); ?></h2>
             <p><?php esc_html_e('Paste a shortcode into any post or page. Find game IDs in Launch Pad.', 'slotslaunch-wp-embeds'); ?></p>
-            <code>[slotslaunch_game id="45958"]</code>
-            <p class="description"><?php esc_html_e('Optional attributes: height="600" width="100%"', 'slotslaunch-wp-embeds'); ?></p>
-            <p class="description"><?php esc_html_e('Games load via AJAX so full-page cache plugins do not serve expired signed URLs.', 'slotslaunch-wp-embeds'); ?></p>
+            <p><code>[slotslaunch_game id="45958"]</code></p>
+            <p class="description"><?php esc_html_e('Optional attributes: height="600" width="100%" autoload="true"', 'slotslaunch-wp-embeds'); ?></p>
+            <p><?php esc_html_e('URL only (cache-safe — signed on each page load via AJAX):', 'slotslaunch-wp-embeds'); ?></p>
+            <p><code>[slotslaunch_url id="45958"]</code></p>
+            <p class="description"><?php esc_html_e('Put the shortcode inside your own markup. Example:', 'slotslaunch-wp-embeds'); ?></p>
+            <p><code>&lt;a href="#" target="_blank" rel="noopener noreferrer"&gt;Play demo [slotslaunch_url id="45958"]&lt;/a&gt;</code></p>
+            <p class="description"><?php esc_html_e('Or set data-sl-game-url="45958" on an &lt;a&gt; or &lt;iframe&gt;. Do not cache slotslaunch_game_url() — that helper signs immediately.', 'slotslaunch-wp-embeds'); ?></p>
             <?php if ($settings['api_key'] === '' || $settings['api_secret'] === '') : ?>
                 <div class="notice notice-warning inline">
                     <p><?php esc_html_e('Add your API key and API secret before November 15, 2026 to keep embeds working after the signed-embed upgrade.', 'slotslaunch-wp-embeds'); ?></p>

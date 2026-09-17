@@ -11,6 +11,7 @@ final class Assets
     public static function register(): void
     {
         add_action('wp_enqueue_scripts', [self::class, 'registerScript']);
+        add_action('wp_enqueue_scripts', [self::class, 'maybeEnqueue']);
     }
 
     public static function registerScript(): void
@@ -31,6 +32,24 @@ final class Assets
                 'nonce' => wp_create_nonce('slotslaunch_wp_embeds'),
             ]
         );
+    }
+
+    public static function maybeEnqueue(): void
+    {
+        $post = get_post();
+        if (! $post instanceof \WP_Post) {
+            return;
+        }
+
+        $content = (string) $post->post_content;
+        if (
+            has_shortcode($content, 'slotslaunch_url')
+            || has_shortcode($content, 'slotslaunch_game')
+            || has_shortcode($content, 'slotslaunch')
+            || strpos($content, 'data-sl-game-url') !== false
+        ) {
+            self::enqueue();
+        }
     }
 
     public static function enqueue(): void

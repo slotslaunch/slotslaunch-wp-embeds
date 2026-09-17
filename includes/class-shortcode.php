@@ -12,6 +12,7 @@ final class Shortcode
     {
         add_shortcode('slotslaunch_game', [self::class, 'render']);
         add_shortcode('slotslaunch', [self::class, 'render']);
+        add_shortcode('slotslaunch_url', [self::class, 'renderUrl']);
     }
 
     /**
@@ -26,12 +27,19 @@ final class Shortcode
                 'height' => '600',
                 'width' => '100%',
                 'autoload' => 'true',
+                'output' => 'iframe',
             ],
             is_array($atts) ? $atts : [],
             'slotslaunch_game'
         );
 
         $gameId = (int) ($atts['id'] !== '' ? $atts['id'] : $atts['game']);
+        $output = strtolower(trim((string) $atts['output']));
+
+        if ($output === 'url') {
+            return self::renderUrl(['id' => (string) $gameId]);
+        }
+
         if ($gameId < 1) {
             return self::message(__('Slots Launch: missing game id.', 'slotslaunch-wp-embeds'));
         }
@@ -68,6 +76,39 @@ final class Shortcode
             esc_attr($title),
             esc_attr($width),
             $inner
+        );
+    }
+
+    /**
+     * Cache-safe placeholder. JS fetches a fresh signed URL on each page load.
+     *
+     * @param array<string, string>|string $atts
+     */
+    public static function renderUrl($atts, ?string $content = null): string
+    {
+        $atts = shortcode_atts(
+            [
+                'id' => '',
+                'game' => '',
+            ],
+            is_array($atts) ? $atts : [],
+            'slotslaunch_url'
+        );
+
+        $gameId = (int) ($atts['id'] !== '' ? $atts['id'] : $atts['game']);
+        if ($gameId < 1) {
+            return self::message(__('Slots Launch: missing game id.', 'slotslaunch-wp-embeds'));
+        }
+
+        if (Settings::client() === null) {
+            return self::message(__('Slots Launch: configure API key and API secret in Settings → Slots Launch Embeds.', 'slotslaunch-wp-embeds'));
+        }
+
+        Assets::enqueue();
+
+        return sprintf(
+            '<span class="slotslaunch-url" data-sl-game="%d" hidden></span>',
+            $gameId
         );
     }
 
